@@ -1,39 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-
-#define TABLE_ORDER 14
-
-typedef struct {
-	int turns_left;
-	int table[TABLE_ORDER][TABLE_ORDER];
-} FloodIt;
-
-void setup(FloodIt *game) {
-	int i, j;
-
-	srand(time(NULL));
-
-    for (i = 0; i < TABLE_ORDER; ++i)
-        for (j = 0; j < TABLE_ORDER; ++j)
-            (*game).table[i][j] = rand() % 6;	
-}
-
-void draw(FloodIt game) {
-	int i, j;
-
-	for (i = 0; i < TABLE_ORDER; ++i) {
-		for (j = 0; j < TABLE_ORDER; ++j) {
-			printf("%d  ", game.table[i][j]);
-		}
-		printf("\n");
-	}
-}
+#include "game.h"
 
 int main() {
 	FloodIt game;
-
+	int input;
+	
 	setup(&game);
 
 	draw(game);
+
+	while(1) {
+		scanf("%d", &input);
+		fill(&game.table, 0, 0, game.table[0][0], input);
+		draw(game);
+	}
 }
