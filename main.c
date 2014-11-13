@@ -8,11 +8,12 @@ int main() {
 
 	draw(game);
 
-	while(input != 'q') {
+	while(input != 'q' && game.moves) {
 		input = getchar();
 		if (input >= '0' && input <= '5') {
 			new_value = input - '0';
 			fill(&game.table, 0, 0, game.table[0][0], new_value);
+			game.moves--;
 			draw(game);
 		}
 	}
