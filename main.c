@@ -17,6 +17,9 @@ int main() {
 			winner_check(&game);
 			draw(game);
 		}
+		if (input == 's') {
+			save(game);
+		}
 	}
 
 	status(game);

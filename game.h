@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
 #define TABLE_ORDER 14
@@ -73,4 +74,29 @@ void status(FloodIt game) {
 
 	if (game.status == WINNER)
 		printf("GANHOU!\n");
+}
+
+void save(FloodIt game) {
+	char name[10], table_data[TABLE_ORDER * TABLE_ORDER];
+	int i, j, c = 0;
+
+    for (i = 0; i < TABLE_ORDER; ++i)
+        for (j = 0; j < TABLE_ORDER; ++j)
+        	// (char)(((int)'0')+INT) - Convert int to the correspondent in the ASCII chart
+        	table_data[c++] = (char)(((int)'0')+game.table[i][j]); 	
+
+	printf("Digite seu nome (limite máximo de caracteres: 10): ");
+	scanf("%10s", &name);
+
+	FILE *data;
+	data = fopen("data.txt", "a");
+
+	if (data != NULL) {
+		fprintf(data, "%s %d %s\n", name, game.moves, table_data);
+
+		fclose(data);
+	}
+
+	printf("Jogo salvo!\n");
+	exit(0);
 }
