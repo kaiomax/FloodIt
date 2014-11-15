@@ -20,6 +20,10 @@ int main() {
 		if (input == 's') {
 			save(game);
 		}
+		if (input == 'o') {
+			load(&game);
+			draw(game);
+		}
 	}
 
 	status(game);

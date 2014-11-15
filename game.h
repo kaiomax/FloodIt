@@ -95,3 +95,22 @@ void save(FloodIt game) {
 	printf("Jogo salvo!\n");
 	exit(0);
 }
+
+void load(FloodIt *game) {
+	char table_data[TABLE_ORDER * TABLE_ORDER];
+	int moves, row, col, item = 0;
+
+	FILE *data;
+	data = fopen("data.txt", "r");
+
+	if (data != NULL) {
+		fscanf(data, "%d %s", &moves, &table_data);
+		fclose(data);
+	}
+
+	game -> moves = moves;
+
+	for (row = 0; row < TABLE_ORDER; ++row)
+		for (col = 0; col < TABLE_ORDER; ++col)
+			game -> table[row][col]	= table_data[item++] - '0';
+}
