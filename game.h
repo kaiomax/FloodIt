@@ -68,32 +68,27 @@ void winner_check(FloodIt *game) {
 }
 
 void status(FloodIt game) {
-	system("clear");
 	if (game.moves == 0 && game.status == LOSER)
-		printf("PERDEU!\n");
+		printf("\nPERDEU!\n");
 
 	if (game.status == WINNER)
-		printf("GANHOU!\n");
+		printf("\nGANHOU!\n");
 }
 
 void save(FloodIt game) {
-	char name[10], table_data[TABLE_ORDER * TABLE_ORDER];
-	int i, j, c = 0;
+	char table_data[TABLE_ORDER * TABLE_ORDER];
+	int row, col, item = 0;
 
-    for (i = 0; i < TABLE_ORDER; ++i)
-        for (j = 0; j < TABLE_ORDER; ++j)
+	for (row = 0; row < TABLE_ORDER; ++row)
+		for (col = 0; col < TABLE_ORDER; ++col)
         	// (char)(((int)'0')+INT) - Convert int to the correspondent in the ASCII chart
-        	table_data[c++] = (char)(((int)'0')+game.table[i][j]); 	
-
-	printf("Digite seu nome (limite máximo de caracteres: 10): ");
-	scanf("%10s", &name);
+			table_data[item++] = (char)(((int)'0')+game.table[row][col]); 	
 
 	FILE *data;
-	data = fopen("data.txt", "a");
+	data = fopen("data.txt", "w");
 
 	if (data != NULL) {
-		fprintf(data, "%s %d %s\n", name, game.moves, table_data);
-
+		fprintf(data, "%d %s", game.moves, table_data);
 		fclose(data);
 	}
 
