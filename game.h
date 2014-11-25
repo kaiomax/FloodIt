@@ -38,7 +38,15 @@ void draw(FloodIt game) {
 		printf("\n");
 	}
 
-	printf("Jogadas restantes: %d\n", game.moves);
+	printf("\nJogadas restantes: %d\n\n", game.moves);
+
+	printf("------------------ MENU ------------------\n\n");
+	printf("0-5 - preencher tabela\n");
+	printf("s - salvar jogo\n");
+	printf("o - abrir jogo salvo\n");
+	printf("q - sair\n");
+
+	printf("\nComando: ");
 }
 
 void fill(int *table, int row, int col, int target, int new_value) {
@@ -69,10 +77,10 @@ void winner_check(FloodIt *game) {
 
 void status(FloodIt game) {
 	if (game.moves == 0 && game.status == LOSER)
-		printf("\nPERDEU!\n");
+		printf("\n\nPERDEU!\n");
 
 	if (game.status == WINNER)
-		printf("\nGANHOU!\n");
+		printf("\n\nGANHOU!\n");
 }
 
 void save(FloodIt game) {
