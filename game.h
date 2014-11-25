@@ -8,14 +8,18 @@ enum game_status {LOSER, WINNER};
 
 typedef struct {
 	int moves;
+	int undos;
 	int table[TABLE_ORDER][TABLE_ORDER];
 	enum game_status status;
 
 } FloodIt;
 
+int TABLE_BACKUP[TABLE_ORDER][TABLE_ORDER];
+
 void setup(FloodIt *game) {
 	int i, j;
 
+	game -> undos = 5;
 	game -> moves = 25;
 	game -> status = LOSER;
 
@@ -38,10 +42,17 @@ void draw(FloodIt game) {
 		printf("\n");
 	}
 
+	if (game.undos > 1) {
+		printf("\nPode desfazer o movimento: %d vezes.\n", game.undos);
+	} else {
+		printf("\nPode desfazer o movimento: %d vez.\n", game.undos);
+	}
+	
 	printf("\nJogadas restantes: %d\n\n", game.moves);
 
 	printf("------------------ MENU ------------------\n\n");
 	printf("0-5 - preencher tabela\n");
+	printf("d - desfazer jogada\n");
 	printf("s - salvar jogo\n");
 	printf("o - abrir jogo salvo\n");
 	printf("q - sair\n");
@@ -96,7 +107,7 @@ void save(FloodIt game) {
 	data = fopen("data.txt", "w");
 
 	if (data != NULL) {
-		fprintf(data, "%d %s", game.moves, table_data);
+		fprintf(data, "%d %d %s", game.undos, game.moves, table_data);
 		fclose(data);
 	}
 
@@ -106,19 +117,36 @@ void save(FloodIt game) {
 
 void load(FloodIt *game) {
 	char table_data[TABLE_ORDER * TABLE_ORDER];
-	int moves, row, col, item = 0;
+	int undos, moves, row, col, item = 0;
 
 	FILE *data;
 	data = fopen("data.txt", "r");
 
 	if (data != NULL) {
-		fscanf(data, "%d %s", &moves, &table_data);
+		fscanf(data, "%d %d %s", &undos, &moves, &table_data);
 		fclose(data);
 	}
 
 	game -> moves = moves;
+	game -> undos = undos;
 
 	for (row = 0; row < TABLE_ORDER; ++row)
 		for (col = 0; col < TABLE_ORDER; ++col)
 			game -> table[row][col]	= table_data[item++] - '0';
+}
+
+void save_table_state(FloodIt game) {
+	int row, col;
+
+	for (row = 0; row < TABLE_ORDER; ++row)
+		for (col = 0; col < TABLE_ORDER; ++col)
+			TABLE_BACKUP[row][col] = game.table[row][col];
+}
+
+void undo_move(FloodIt *game) {
+	int row, col;
+
+	for (row = 0; row < TABLE_ORDER; ++row)
+		for (col = 0; col < TABLE_ORDER; ++col)
+			game -> table[row][col]	= TABLE_BACKUP[row][col];	
 }
