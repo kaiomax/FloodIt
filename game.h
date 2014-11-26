@@ -148,5 +148,5 @@ void undo_move(FloodIt *game) {
 
 	for (row = 0; row < TABLE_ORDER; ++row)
 		for (col = 0; col < TABLE_ORDER; ++col)
-			game -> table[row][col]	= TABLE_BACKUP[row][col];	
+			game -> table[row][col]	= TABLE_BACKUP[row][col];
 }

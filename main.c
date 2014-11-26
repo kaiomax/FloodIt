@@ -2,7 +2,7 @@
 
 int main() {
 	FloodIt game;
-	int input, new_value;
+	int input, new_value, did_undo = 0;
 
 	setup(&game);
 
@@ -19,6 +19,8 @@ int main() {
 
 			winner_check(&game);
 			draw(game);
+
+			did_undo = 0;
 		}
 		if (input == 's') {
 			save(game);
@@ -28,15 +30,18 @@ int main() {
 			draw(game);
 		}
 		if (input == 'd') {
-			if (game.undos > 0) {
-				undo_move(&game);
-				game.undos--;
-				game.moves--;
-				draw(game);
-			} else {
-				printf("\nVocê não pode mais desfazer jogadas!\n");
-				printf("\nInsira outro comando:\n");
-				input = getchar();
+			if (game.moves < 25 && !did_undo) {
+				if (game.undos > 0) {
+					undo_move(&game);
+					game.undos--;
+					game.moves++;
+					draw(game);
+					did_undo = 1;
+				} else {
+					printf("\nVocê não pode mais desfazer jogadas!\n");
+					printf("\nInsira outro comando:\n");
+					input = getchar();
+				}
 			}
 		}
 	}
